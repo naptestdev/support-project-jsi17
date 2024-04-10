@@ -1,2 +1,0 @@
-Design: [https://ecommerce-vanillajs-mindx.netlify.app/](https://ecommerce-vanillajs-mindx.netlify.app/)
-Demo: [https://naptestdev.github.io/ecommerce-firebase-vanillajs](https://naptestdev.github.io/ecommerce-firebase-vanillajs)
