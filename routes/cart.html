@@ -1,0 +1,155 @@
+<link rel="stylesheet" href="./styles/cart.css" />
+
+<nav>
+  <div class="navbar">
+    <a href="./#">
+      <h1>Shop Lane</h1>
+    </a>
+    <div>
+      <a href="#">CLOTHING</a>
+      <a href="#" style="margin-left: 20px">ACCESSORIES</a>
+    </div>
+    <div id="navbar-links"></div>
+  </div>
+</nav>
+
+<div id="cart-container"></div>
+
+<script type="module">
+  import { db, auth, subscriptions } from "./scripts/firebase.js";
+  import { products } from "./scripts/data.js";
+  import {
+    collection,
+    onSnapshot,
+    deleteDoc,
+    increment,
+    doc,
+    getDoc,
+    setDoc,
+    updateDoc,
+  } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+  import { signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+  window.handleSignOut = () => {
+    signOut(auth);
+  };
+
+  const displayCart = (products) => {
+    console.log(products);
+    if (products.length === 0) {
+      document.getElementById("cart-container").innerHTML = /* html */ `
+      <h4 class="empty-warning">Your cart is empty</h4>
+    `;
+    } else {
+      document.getElementById("cart-container").innerHTML = /* html */ `
+      <table>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Subtotal</th>
+        </tr>
+        ${products
+          .map(
+            (product) => /*html*/ `
+            <tr>
+              <td>
+                <div class="product-cell">
+                  <img src="${product.image}" alt="" />
+                  <p>${product.title}</p>
+                </div>
+              </td>
+              <td class="quantity-cell">
+                <button onclick="removeFromCart(${product.id});">
+                  -
+                </button>
+                <span>${product.quantity}</span>
+                <button onclick="addToCart(${product.id});">
+                  +
+                </button>
+              </td>
+              <td>$${
+                Math.round(product.price * product.quantity * 100) / 100
+              }</td>
+            </tr>
+          `
+          )
+          .join("")}
+      </table>
+      <div class="total">
+        <h2>Total: $${
+          Math.round(
+            products.reduce((acc, product) => {
+              acc += product.price * product.quantity;
+              return acc;
+            }, 0) * 100
+          ) / 100
+        }</h2>
+      </div>
+    `;
+    }
+  };
+
+  window.addToCart = async (productId) => {
+    if (!auth.currentUser) {
+      alert("Please login");
+      return;
+    }
+
+    const docRef = doc(db, `cart-${auth.currentUser.uid}`, `${productId}`);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      updateDoc(docRef, {
+        quantity: increment(1),
+      });
+    } else {
+      setDoc(docRef, {
+        ...products.find((item) => item.id === productId),
+        quantity: 1,
+      });
+    }
+  };
+
+  window.removeFromCart = async (productId) => {
+    const docRef = doc(db, `cart-${auth.currentUser.uid}`, `${productId}`);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.data().quantity === 1) {
+      deleteDoc(docRef);
+    } else {
+      updateDoc(docRef, {
+        quantity: increment(-1),
+      });
+    }
+  };
+
+  if (auth.currentUser) {
+    document.querySelector("#navbar-links").innerHTML = /*html*/ `
+        <a href="#/cart">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span id="cart-count"></span>
+        </a>
+        <img class="navbar-avatar" src="${auth.currentUser.photoURL}" alt="" />
+        <button onclick="handleSignOut()" class="btn btn-danger">Logout</button>
+      `;
+
+    const unsub = onSnapshot(
+      collection(db, `cart-${auth.currentUser.uid}`),
+      (snapshot) => {
+        const products = [];
+        snapshot.forEach((doc) => {
+          products.push({ ...doc.data(), id: doc.id });
+        });
+        document.querySelector("#cart-count").innerText = products.length;
+        displayCart(products);
+      }
+    );
+
+    subscriptions.push(unsub);
+  } else {
+    document.querySelector("#navbar-links").innerHTML = /*html*/ `
+        <a href="#/login" class="btn btn-success">Login</a>
+        <a href="#/register" class="btn btn-primary">Register</a>
+      `;
+  }
+</script>

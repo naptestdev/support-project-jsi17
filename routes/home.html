@@ -1,0 +1,132 @@
+<nav>
+  <div class="navbar">
+    <a href="./#">
+      <h1>Shop Lane</h1>
+    </a>
+    <div>
+      <a href="#">CLOTHING</a>
+      <a href="#" style="margin-left: 20px">ACCESSORIES</a>
+    </div>
+    <div id="navbar-links"></div>
+  </div>
+</nav>
+
+<div class="main-content">
+  <div class="banner">
+    <img src="./assets/banner.png" alt="" />
+  </div>
+  <div id="products"></div>
+</div>
+
+<script type="module">
+  import { products } from "./scripts/data.js";
+  import {
+    collection,
+    getDoc,
+    doc,
+    setDoc,
+    updateDoc,
+    increment,
+  } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+  import { db, auth } from "./scripts/firebase.js";
+  import { signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+  window.addToCart = async (productId) => {
+    if (!auth.currentUser) {
+      alert("Please login");
+      return;
+    }
+
+    const docRef = doc(db, `cart-${auth.currentUser.uid}`, `${productId}`);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      await updateDoc(docRef, {
+        quantity: increment(1),
+      });
+    } else {
+      await setDoc(docRef, {
+        ...products.find((item) => item.id === productId),
+        quantity: 1,
+      });
+    }
+
+    alert("Added to cart successfully");
+  };
+
+  let categories = [];
+  for (let product of products) {
+    if (!categories[product.category]) categories[product.category] = [];
+    categories[product.category].push(product);
+  }
+
+  for (let category in categories) {
+    document.getElementById("products").innerHTML += /*html*/ `
+    <h2>${category}</h2>
+
+    <div class="products-by-category">
+    ${categories[category]
+      .map(
+        (product) => /*html*/ `
+          <div class="product_card">
+            <div class="image-container">
+              <img src="${product.image}" />
+            </div>
+            <div class="container">
+              <div class="info">
+                <h5>${product.title}</h5>
+                <h6>$${product.price}</h6>
+              </div>
+              <button onclick="addToCart(${product.id})">Add to cart</button>
+            </div>
+          </div>
+          `
+      )
+      .join("")}
+
+      </div>
+      `;
+  }
+</script>
+
+<script type="module">
+  import { db, auth, subscriptions } from "./scripts/firebase.js";
+  import {
+    collection,
+    onSnapshot,
+  } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+  import { signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+  window.handleSignOut = () => {
+    signOut(auth);
+  };
+
+  if (auth.currentUser) {
+    document.querySelector("#navbar-links").innerHTML = /*html*/ `
+        <a href="#/cart">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span id="cart-count"></span>
+        </a>
+        <img class="navbar-avatar" src="${auth.currentUser.photoURL}" alt="" />
+        <button onclick="handleSignOut()" class="btn btn-danger">Logout</button>
+      `;
+
+    const unsub = onSnapshot(
+      collection(db, `cart-${auth.currentUser.uid}`),
+      (snapshot) => {
+        const items = [];
+        snapshot.forEach((doc) => {
+          items.push({ ...doc.data(), id: doc.id });
+        });
+        document.querySelector("#cart-count").innerText = items.length;
+      }
+    );
+
+    subscriptions.push(unsub);
+  } else {
+    document.querySelector("#navbar-links").innerHTML = /*html*/ `
+        <a href="#/login" class="btn btn-success">Login</a>
+        <a href="#/register" class="btn btn-primary">Register</a>
+      `;
+  }
+</script>

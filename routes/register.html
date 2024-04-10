@@ -1,0 +1,134 @@
+<link rel="stylesheet" href="./styles/auth.css" />
+
+<div class="auth-container">
+  <div class="auth-model">
+    <div class="auth-header">
+      <p>
+        <a href="#/"><i class="bx bx-chevron-left"></i></a> Register
+      </p>
+    </div>
+
+    <form class="auth-content">
+      <button type="button" class="google-btn">
+        <img src="./assets/google.png" alt="" /><span>Sign In With Google</span>
+      </button>
+
+      <p style="text-align: center; margin: 20px 0">OR</p>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">
+          <i class="bx bxs-user"></i>
+        </span>
+        <input
+          required
+          type="text"
+          class="form-control"
+          placeholder="Username"
+          aria-label="Username"
+          aria-describedby="basic-addon1"
+          id="username"
+          name="username"
+        />
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">@</span>
+        <input
+          required
+          type="email"
+          class="form-control"
+          placeholder="Email"
+          aria-label="Email"
+          aria-describedby="basic-addon1"
+          id="email"
+          name="email"
+        />
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon2">
+          <i class="bx bxs-lock-alt"></i>
+        </span>
+        <input
+          minlength="6"
+          maxlength="18"
+          required
+          type="password"
+          class="form-control"
+          placeholder="Password"
+          aria-label="Password"
+          aria-describedby="basic-addon2"
+          id="password"
+          name="password"
+        />
+      </div>
+      <div class="w-100" id="btn-container">
+        <button class="btn btn-primary w-100" type="submit">Sign Up</button>
+      </div>
+
+      <p class="mt-2">Haven't got an account? <a href="#/login">Login</a></p>
+    </form>
+  </div>
+</div>
+
+<script type="module">
+  import {
+    createUserWithEmailAndPassword,
+    updateProfile,
+    signOut,
+    sendEmailVerification,
+  } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
+  import { auth } from "./scripts/firebase.js";
+  import { signInWithGoogle } from "./scripts/utils.js";
+
+  const googleBtn = document.querySelector(".google-btn");
+  googleBtn.addEventListener("click", () => signInWithGoogle());
+
+  const form = document.querySelector("form");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    document.querySelector("#btn-container").innerHTML = /*html*/ `
+      <button class="btn btn-primary w-100" type="button" disabled>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <span>Sign Up...</span>
+      </button>
+    `;
+
+    const username = form.username.value.trim();
+    const email = form.email.value.trim();
+    const password = form.password.value;
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(async (userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+
+        await sendEmailVerification(user);
+
+        await updateProfile(auth.currentUser, {
+          displayName: username,
+          photoURL: `https://avatars.dicebear.com/api/initials/${encodeURIComponent(
+            username
+          )}.svg`,
+        });
+
+        await signOut(auth);
+
+        alert("Please verify your email");
+
+        location.hash = "#/login";
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+        alert(errorCode);
+      })
+      .finally(() => {
+        document.querySelector("#btn-container").innerHTML = /*html*/ `
+          <button class="btn btn-primary w-100" type="submit">Sign Up</button>
+        `;
+      });
+  });
+</script>
