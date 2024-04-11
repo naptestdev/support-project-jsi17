@@ -33,11 +33,13 @@ window.bookTour = async () => {
   const { value: formValues } = await Swal.fire({
     title: "Đặt Tour",
     html: `
-    <p>(Để lại SĐT và email, chúng tôi sẽ liên lạc với bạn)</p>
-    <input type="tel" id="swal-input1" class="swal2-input" required placeholder="Số điện thoại">
-    <input type="email" id="swal-input2" class="swal2-input" required placeholder="Email">
+    <p>Chúng tôi sẽ liên lạc với bạn</p>
+    <input type="text" class="swal2-input" required placeholder="Họ và Tên">
+    <input type="tel" class="swal2-input" required placeholder="Số điện thoại">
+    <input type="email" class="swal2-input" required placeholder="Email">
   `,
     focusConfirm: false,
+    showCancelButton: true,
     preConfirm: () => {
       return [
         document.getElementById("swal-input1").value,
