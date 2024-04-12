@@ -1,0 +1,56 @@
+#cart-container {
+  padding: 30px 5vw;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.empty-warning {
+  text-align: center;
+}
+
+.product-cell {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.product-cell img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+}
+
+.quantity-cell span {
+  margin: 0 5px;
+}
+
+.quantity-cell button {
+  width: 25px;
+  height: 25px;
+  font-size: 20px;
+  outline: none;
+  border: none;
+  background: #d9d9d9;
+  border-radius: 9999px;
+  cursor: pointer;
+}
+
+.total {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  font-weight: 500;
+}
