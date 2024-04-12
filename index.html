@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Firstflight Travels</title>
+    <link rel="icon" href="./files/logo.png" />
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Paytone+One&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/boxicons@latest/css/boxicons.min.css"
+    />
+  </head>
+  <body>
+    <!-- Background Video & Header -->
+
+    <div class="banner">
+      <!-- Header -->
+
+      <div class="content" id="home">
+        <nav>
+          <img
+            src="./files/logo.png"
+            class="logo"
+            alt="Logo"
+            title="FirstFlight Travels"
+          />
+
+          <ul class="navbar">
+            <li style="display: flex; align-items: center; gap: 10px">
+              <a href="#locations">Địa điểm</a>
+              <a href="#package">Tour</a>
+              <div
+                style="display: inline-flex; align-items: center; gap: 5px"
+                id="action-section"
+              ></div>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="title">
+          <h1>Vi Vu Hạ Long</h1>
+          <p>Đặt Tour và khám phá vịnh Hạ Long cùng chúng tôi</p>
+          <a href="./register.html" class="button">Đăng ký ngay</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Services -->
+
+    <section class="container">
+      <div class="text">
+        <h2>Chúng tôi có những dịch vụ tốt nhất dành cho bạn</h2>
+      </div>
+      <div class="rowitems">
+        <div class="container-box">
+          <div class="container-image">
+            <img src="./files/1a.jpg" alt="Flight Services" />
+          </div>
+          <h4>Chuyến bay</h4>
+          <p>Đi và đến</p>
+        </div>
+
+        <div class="container-box">
+          <div class="container-image">
+            <img src="./files/2a.jpg" alt="Food Services" />
+          </div>
+          <h4>Ẩm thực</h4>
+          <p>Phục vụ ăn uống</p>
+        </div>
+
+        <div class="container-box">
+          <div class="container-image">
+            <img src="./files/3a.jpg" alt="Travel Services" />
+          </div>
+          <h4>Di chuyển</h4>
+          <p>Đón và đi</p>
+        </div>
+
+        <div class="container-box">
+          <div class="container-image">
+            <img src="./files/4a.jpg" alt="Hotel Services" />
+          </div>
+          <h4>Khách sạn</h4>
+          <p>Đặt phòng</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Locations -->
+
+    <section class="locations" id="locations">
+      <div class="package-title">
+        <h2>Các địa điểm</h2>
+      </div>
+
+      <div class="location-content">
+        <a href="#" target="_blank"
+          ><div class="col-content">
+            <img src="./files/vinh-ha-long.jpeg" alt="" />
+            <h5>Vịnh Hạ Long</h5>
+            <p>Hạ Long</p>
+          </div></a
+        >
+
+        <a href="#" target="_blank"
+          ><div class="col-content">
+            <img src="./files/vinh-lan-ha.jpeg" alt="" />
+            <h5>Vịnh Lan Hạ</h5>
+            <p>Lan Hạ</p>
+          </div></a
+        >
+
+        <a href="#" target="_blank"
+          ><div class="col-content">
+            <img src="./files/dao-cat-ba.jpeg" alt="" />
+            <h5>Đảo Cát Bà</h5>
+            <p>Cát Bà</p>
+          </div></a
+        >
+      </div>
+    </section>
+
+    <!-- Packages -->
+
+    <section class="package" id="package">
+      <div class="package-title">
+        <h2>Các tour</h2>
+      </div>
+
+      <div class="package-content">
+        <div style="cursor: pointer" onclick="window.bookTour()" class="box">
+          <div class="image">
+            <img
+              src="https://i.natgeofe.com/n/39181071-db55-488f-bd54-707759ad924e/river-hanoi-vietnam.jpg"
+              alt=""
+            />
+            <h3>750.000đ / 1 người</h3>
+          </div>
+
+          <div class="dest-content">
+            <div class="location">
+              <h4>TOUR 7 NGÀY QUANH QUẢNG NINH</h4>
+              <ul class="pac-details">
+                <li>7N/6D</li>
+                <li>Số khách: 10</li>
+                <li>Việt Nam</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div style="cursor: pointer" onclick="window.bookTour()" class="box">
+          <div class="image">
+            <img
+              src="https://jptraveltime.com/wp-content/uploads/2019/12/romantic-dalat-jptraveltime.jpg"
+              alt=""
+            />
+            <h3>550.000đ / 1 người</h3>
+          </div>
+
+          <div class="dest-content">
+            <div class="location">
+              <h4>TOUR 7 NGÀY QUANH HẠ LONG</h4>
+              <ul class="pac-details">
+                <li>7N/6D</li>
+                <li>Số khách: 10</li>
+                <li>Việt Nam</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div style="cursor: pointer" onclick="window.bookTour()" class="box">
+          <div class="image">
+            <img
+              src="https://cdn.tuoitrethudo.com.vn/stores/news_dataimages/2022/112022/24/15/nhung-dau-an-hp-220221124153443.jpg?rt=20221124153602"
+              alt=""
+            />
+            <h3>650.000đ / 1 người</h3>
+          </div>
+
+          <div class="dest-content">
+            <div class="location">
+              <h4>TOUR 7 NGÀY QUANH ĐẢO CÁT BÀ</h4>
+              <ul class="pac-details">
+                <li>7N/6D</li>
+                <li>Số khách: 10</li>
+                <li>Việt Nam</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter -->
+
+    <section class="newsletter">
+      <div class="newstext">
+        <h2>Newsletter</h2>
+        <p>Đăng ký để nhận những thông tin<br />mới nhất mỗi tuần</p>
+      </div>
+
+      <div class="send">
+        <form action="">
+          <input type="email" name="emailid" placeholder="E-mail" required />
+          <input type="submit" value="Đăng ký" />
+        </form>
+      </div>
+    </section>
+
+    <!-- Footer -->
+
+    <section class="footer">
+      <div class="foot">
+        <div class="footer-content">
+          <div class="footlinks">
+            <h4>Liên kết</h4>
+            <ul>
+              <li><a href="#">Đăng ký</a></li>
+              <li><a href="#">Đăng nhập</a></li>
+              <li><a href="#">Địa điểm</a></li>
+              <li><a href="#">Tour</a></li>
+            </ul>
+          </div>
+
+          <div class="footlinks">
+            <h4>Kết nối với chúng tôi</h4>
+            <div class="social">
+              <a
+                href="https://www.facebook.com/mohd.rahil.blogger"
+                target="_blank"
+                ><i class="bx bxl-facebook"></i
+              ></a>
+              <a href="https://www.instagram.com/mohdrahil101" target="_blank"
+                ><i class="bx bxl-instagram"></i
+              ></a>
+              <a href="https://www.twitter.com/mohdrahil101" target="_blank"
+                ><i class="bx bxl-twitter"></i
+              ></a>
+              <a href="https://www.linkedin.com/in/mohdrahil101" target="_blank"
+                ><i class="bx bxl-linkedin"></i
+              ></a>
+              <a href="https://www.youtube.com/techdollarz" target="_blank"
+                ><i class="bx bxl-youtube"></i
+              ></a>
+              <a href="https://www.mohdrahil.wordpress.com" target="_blank"
+                ><i class="bx bxl-wordpress"></i
+              ></a>
+              <a href="https://www.github.com/mohdrahil101" target="_blank"
+                ><i class="bx bxl-github"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="./scripts/script.js" type="module"></script>
+  </body>
+</html>
