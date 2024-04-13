@@ -50,7 +50,7 @@ th {
 
 .total {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-top: 20px;
   font-weight: 500;
 }
