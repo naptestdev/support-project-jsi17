@@ -34,7 +34,7 @@ const displayCart = (products) => {
   `;
   } else {
     document.getElementById("cart-container").innerHTML = /* html */ `
-    <table>
+    <table style="background: white">
       <tr>
         <th>Product</th>
         <th>Quantity</th>
@@ -76,6 +76,7 @@ const displayCart = (products) => {
           }, 0) * 100
         ) / 100
       }</h2>
+      <button class="btn btn-success" onclick="alert('Purchased Successfully')">Purchase Now</button>
     </div>
   `;
   }
